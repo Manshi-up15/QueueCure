@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { useQueueLive } from '../hooks/useQueueLive'
 
 function formatWaitTime(minutes) {
@@ -29,7 +28,13 @@ export default function PatientView() {
   const [lookup, setLookup] = useState(null)
   const [lookupError, setLookupError] = useState(null)
   const [pulse, setPulse] = useState(false)
+  const [liveTime, setLiveTime] = useState(() => new Date())
   const prevTokenRef = useRef(0)
+
+  useEffect(() => {
+    const id = setInterval(() => setLiveTime(new Date()), 1000)
+    return () => clearInterval(id)
+  }, [])
 
   useEffect(() => {
     if (!state) return
@@ -197,7 +202,7 @@ export default function PatientView() {
           </div>
           <span>
             Updated:{' '}
-            <strong className="text-white">{formatLastUpdated(state.lastUpdated)}</strong>
+            <strong className="text-white tabular-nums">{formatLastUpdated(liveTime.toISOString())}</strong>
           </span>
         </div>
       </footer>

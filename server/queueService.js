@@ -86,7 +86,8 @@ export function getQueueState() {
   }
 }
 
-export function registerPatient({ name, phone }) {
+export function registerPatient(input = {}) {
+  const { name, phone } = input
   const trimmedName = name?.trim()
   const trimmedPhone = phone?.trim()
 

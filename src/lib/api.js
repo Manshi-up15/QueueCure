@@ -5,8 +5,11 @@ async function request(path, options = {}) {
 
   try {
     response = await fetch(path, {
-      headers: { 'Content-Type': 'application/json', ...options.headers },
       ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
     })
   } catch {
     throw new Error(
