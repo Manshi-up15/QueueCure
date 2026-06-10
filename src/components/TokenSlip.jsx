@@ -10,17 +10,17 @@ export default function TokenSlip({ patient, onClose }) {
   return (
     <>
       <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 p-4 print:hidden">
-        <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
-          <h2 className="text-lg font-semibold text-slate-900">Patient Registered</h2>
-          <p className="mt-1 text-sm text-slate-500">
+        <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-slate-900 dark:ring-1 dark:ring-slate-700">
+          <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Patient Registered</h2>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             Token #{patient.tokenNumber} assigned to {patient.name}
           </p>
 
-          <div className="mt-4 rounded-xl border border-dashed border-slate-300 p-6 text-center">
-            <p className="text-xs uppercase tracking-widest text-slate-500">Your Token</p>
-            <p className="mt-2 text-6xl font-bold text-clinic-700">{patient.tokenNumber}</p>
-            <p className="mt-3 font-medium text-slate-900">{patient.name}</p>
-            <p className="text-sm text-slate-500">{patient.phone}</p>
+          <div className="mt-4 rounded-xl border border-dashed border-slate-300 p-6 text-center dark:border-slate-600">
+            <p className="text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400">Your Token</p>
+            <p className="mt-2 text-6xl font-bold text-clinic-700 dark:text-clinic-400">{patient.tokenNumber}</p>
+            <p className="mt-3 font-medium text-slate-900 dark:text-white">{patient.name}</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{patient.phone}</p>
             <p className="mt-2 text-xs text-slate-400">{registeredTime}</p>
           </div>
 
@@ -35,7 +35,7 @@ export default function TokenSlip({ patient, onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 rounded-lg border border-slate-300 px-4 py-2.5 font-semibold text-slate-700 hover:bg-slate-50"
+              className="flex-1 rounded-lg border border-slate-300 px-4 py-2.5 font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800"
             >
               Done
             </button>
