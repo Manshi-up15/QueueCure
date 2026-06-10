@@ -20,12 +20,12 @@ function statusLabel(status) {
     case 'waiting':
       return {
         text: 'Waiting',
-        className: 'bg-clinic-100 text-clinic-700 dark:bg-clinic-900/50 dark:text-clinic-300',
+        className: 'bg-clinic-100 text-clinic-700 dark:bg-clinic-800 dark:text-clinic-100',
       }
     case 'in_consultation':
       return {
         text: 'In consultation',
-        className: 'bg-serve-100 text-serve-700 dark:bg-serve-900/50 dark:text-serve-300',
+        className: 'bg-serve-100 text-serve-700 dark:bg-serve-700 dark:text-serve-100',
       }
     default:
       return {
@@ -146,7 +146,7 @@ export default function ReceptionistView() {
             <ThemeToggle />
             <Link
               to="/patient"
-              className="rounded-lg border border-clinic-200 bg-clinic-50 px-4 py-2 text-sm font-medium text-clinic-700 transition hover:bg-clinic-100 focus:outline-none focus:ring-2 focus:ring-clinic-500 focus:ring-offset-2 dark:border-clinic-800 dark:bg-clinic-950 dark:text-clinic-300 dark:hover:bg-clinic-900 dark:focus:ring-offset-slate-900"
+              className="rounded-lg border border-clinic-200 bg-clinic-50 px-4 py-2 text-sm font-medium text-clinic-700 transition hover:bg-clinic-100 focus:outline-none focus:ring-2 focus:ring-clinic-500 focus:ring-offset-2 dark:border-clinic-700 dark:bg-clinic-800 dark:text-clinic-100 dark:hover:bg-clinic-700 dark:focus:ring-offset-slate-900"
             >
               Open Patient View →
             </Link>
@@ -251,7 +251,7 @@ export default function ReceptionistView() {
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Waiting Queue</h2>
-              <span className="rounded-full bg-clinic-100 px-3 py-1 text-sm font-semibold text-clinic-700 dark:bg-clinic-900/50 dark:text-clinic-300">
+              <span className="rounded-full bg-clinic-100 px-3 py-1 text-sm font-semibold text-clinic-700 dark:bg-clinic-800 dark:text-clinic-100">
                 {state.waiting.length} waiting
               </span>
             </div>
@@ -266,7 +266,7 @@ export default function ReceptionistView() {
           </div>
 
           {state.inConsultation && (
-            <div className="mb-4 rounded-xl border border-serve-200 bg-serve-50 px-4 py-3 dark:border-serve-800 dark:bg-serve-950/40">
+            <div className="mb-4 rounded-xl border border-serve-200 bg-serve-50 px-4 py-3 dark:border-serve-700 dark:bg-serve-700/25">
               <p className="text-xs font-medium uppercase tracking-wide text-serve-700 dark:text-serve-400">
                 In consultation
               </p>
@@ -290,16 +290,16 @@ export default function ReceptionistView() {
                 return (
                   <li
                     key={patient.id}
-                    className="flex items-center gap-4 rounded-xl border border-clinic-100 bg-clinic-50 px-4 py-3 dark:border-clinic-900 dark:bg-clinic-950/30"
+                    className="flex items-center gap-4 rounded-xl border border-clinic-100 bg-clinic-50 px-4 py-3 dark:border-slate-600 dark:bg-slate-800"
                   >
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-600 text-lg font-bold text-white">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-clinic-600 text-lg font-bold text-white dark:bg-clinic-500">
                       {patient.tokenNumber}
                     </span>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate font-medium text-slate-900 dark:text-white" title={patient.name}>
+                      <p className="truncate font-medium text-slate-900 dark:text-slate-100" title={patient.name}>
                         {truncateName(patient.name)}
                       </p>
-                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                      <p className="text-sm text-slate-500 dark:text-slate-300">
                         Position {index + 1} · {patient.phone}
                       </p>
                     </div>
