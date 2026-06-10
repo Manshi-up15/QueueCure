@@ -1,22 +1,38 @@
 # Queue Cure '26
 
-Real-time clinic queue management for the Wooble Hackathon 2026 (Full Stack Track).
+Real-time clinic queue management for the Wooble Hackathon 2026 — Full Stack Track.
 
-Replace paper token slips with a digital queue that keeps the **Receptionist View** and **Patient Waiting Room View** in sync within seconds.
+Replace paper token slips with a live digital queue. Receptionists register patients and call tokens; the patient waiting room updates instantly via WebSockets.
 
-## Features
+## PRD Coverage
 
-- **Receptionist View** (`/`) — add patients, call next token, set average consultation time, live queue list
-- **Patient View** (`/patient`) — large NOW SERVING display, optional token lookup, ETA, queue stats
-- **Real-time sync** — polls shared storage every 2 seconds (cross-tab / cross-device on Wooble)
-- **Persistent state** — survives page refresh via `window.storage` (Wooble) or `localStorage` (local dev)
+| Requirement | Status |
+|-------------|--------|
+| Register patient (name + phone) | ✅ |
+| Auto-assign token, call next, avg time | ✅ |
+| Live waiting list + statuses | ✅ |
+| Reset queue for new day | ✅ |
+| Patient NOW SERVING display | ✅ |
+| Token lookup, tokens ahead, ETA | ✅ |
+| WebSocket sync (no polling) | ✅ |
+| Receptionist PIN protection | ✅ |
+| Printable token slip | ✅ |
+| Daily analytics dashboard | ✅ |
+| SQLite + REST API | ✅ |
+| Deploy configs (Railway/Render) | ✅ |
 
-## Tech Stack
+## Architecture
 
-- React (functional components + hooks)
-- Tailwind CSS
-- React Router
-- `window.storage` API with `localStorage` fallback
+```
+Call Next → POST /api/queue/next → SQLite → WS broadcast → all clients update
+```
+
+| Layer | Tech |
+|-------|------|
+| Frontend | React + Vite + Tailwind CSS |
+| Backend | Node.js + Express |
+| Database | SQLite |
+| Realtime | WebSockets (`ws`) |
 
 ## Quick Start
 
@@ -25,41 +41,67 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) for the Receptionist View and [http://localhost:5173/patient](http://localhost:5173/patient) for the Patient View.
+| Screen | URL | Auth |
+|--------|-----|------|
+| Receptionist | http://localhost:5173 | PIN: `1234` (default) |
+| Patient display | http://localhost:5173/patient | Public |
 
-For local testing, open both URLs in separate browser tabs — they sync via `localStorage`.
+## API
 
-## Build
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| POST | `/api/auth/verify` | — | Verify receptionist PIN |
+| POST | `/api/patients` | PIN | Register patient |
+| GET | `/api/queue` | — | Current queue state |
+| POST | `/api/queue/next` | PIN | Advance queue + broadcast |
+| POST | `/api/queue/settings` | PIN | Update avg consultation time |
+| GET | `/api/patients/:token` | — | Patient lookup + ETA |
+| POST | `/api/queue/reset` | PIN | Reset for new day |
+| GET | `/api/analytics` | PIN | Daily stats |
+| WS | `/queue/live` | — | Live queue push |
+
+Protected routes require header: `X-Receptionist-Pin: <pin>`
+
+## Environment
+
+Copy `.env.example` and set:
 
 ```bash
-npm run build
-npm run preview
+PORT=3001
+DATABASE_PATH=server/data/queuecure.db
+RECEPTIONIST_PIN=1234
 ```
 
-## Demo Script
+## Scripts
 
-1. Open Receptionist View and set average consultation time (e.g. 8 min).
-2. Add 3–4 patients quickly.
-3. Open Patient View in a second tab or on another device.
-4. Enter a token number on the Patient View to see ETA.
-5. Press **Call Next Token** on the Receptionist View — both screens update within 2 seconds.
-6. Refresh either tab — queue state persists.
-
-## Data Model
-
-State is stored under `queuecure:state`:
-
-```json
-{
-  "clinicName": "Queue Cure Clinic",
-  "currentToken": 0,
-  "nextTokenNumber": 1,
-  "avgConsultationTime": 10,
-  "queue": [{ "tokenNumber": 1, "patientName": "Ramesh", "addedAt": "..." }],
-  "lastUpdated": "2026-06-11T10:00:00.000Z"
-}
+```bash
+npm run dev          # API :3001 + Vite :5173
+npm run build        # Production frontend
+npm start            # Serve API + built frontend
+npm test             # Queue service unit tests
 ```
+
+## Deploy (single service)
+
+**Railway / Render** — build frontend, run Express:
+
+```bash
+npm install && npm run build && npm start
+```
+
+Configs included: `railway.toml`, `render.yaml`
+
+For separate frontend deploy (Vercel/Netlify), proxy `/api` and `/queue/live` to your backend URL.
+
+## Demo Flow
+
+1. Open Receptionist View → enter PIN `1234`
+2. Register patients → print token slip
+3. Open `/patient` on a second screen (no PIN needed)
+4. Enter token on patient view → see ETA
+5. Click **Call Next** → both screens update instantly
+6. Check **Today's Analytics** for patients seen and peak hour
 
 ## License
 
-Hackathon submission — Wooble 2026.
+Wooble Hackathon 2026 submission.

@@ -35,3 +35,21 @@ body,
 .animate-token-pulse {
   animation: pulse-ring 1.5s ease-out;
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .print\:block,
+  .print\:block * {
+    visibility: visible;
+  }
+
+  .print\:block {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
