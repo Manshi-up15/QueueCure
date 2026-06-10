@@ -135,11 +135,11 @@ export default function ReceptionistView() {
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-            <div className="rounded-xl bg-serve-500/10 px-5 py-3 text-center dark:bg-serve-500/20">
-              <p className="text-xs font-medium uppercase tracking-wider text-serve-700 dark:text-serve-400">
+            <div className="rounded-xl bg-serve-500/10 px-5 py-3 text-center dark:border dark:border-serve-800 dark:bg-serve-950">
+              <p className="text-xs font-medium uppercase tracking-wider text-serve-700 dark:text-serve-300">
                 Now Serving
               </p>
-              <p className="text-4xl font-bold tabular-nums text-serve-700 dark:text-serve-400">
+              <p className="text-4xl font-bold tabular-nums text-serve-700 dark:text-serve-200">
                 {state.currentToken > 0 ? state.currentToken : '—'}
               </p>
             </div>
@@ -259,18 +259,18 @@ export default function ReceptionistView() {
               type="button"
               onClick={handleCallNext}
               disabled={isQueueEmpty}
-              className="rounded-lg bg-serve-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-serve-700 focus:outline-none focus:ring-2 focus:ring-serve-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:focus:ring-offset-slate-900"
+              className="rounded-lg bg-serve-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-serve-700 focus:outline-none focus:ring-2 focus:ring-serve-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-serve-800 dark:hover:bg-serve-900 dark:focus:ring-serve-700 dark:focus:ring-offset-slate-900"
             >
               Call Next
             </button>
           </div>
 
           {state.inConsultation && (
-            <div className="mb-4 rounded-xl border border-serve-200 bg-serve-50 px-4 py-3 dark:border-serve-700 dark:bg-serve-700/25">
-              <p className="text-xs font-medium uppercase tracking-wide text-serve-700 dark:text-serve-400">
+            <div className="mb-4 rounded-xl border border-serve-200 bg-serve-50 px-4 py-3 dark:border-serve-800 dark:bg-serve-950">
+              <p className="text-xs font-medium uppercase tracking-wide text-serve-700 dark:text-serve-300">
                 In consultation
               </p>
-              <p className="font-semibold text-slate-900 dark:text-white">
+              <p className="font-semibold text-slate-900 dark:text-serve-100">
                 #{state.inConsultation.tokenNumber} — {state.inConsultation.name}
               </p>
             </div>

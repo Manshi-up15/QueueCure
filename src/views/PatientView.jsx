@@ -112,7 +112,7 @@ export default function PatientView() {
         </div>
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          <span className="rounded-full bg-serve-500/15 px-3 py-1 text-xs font-medium text-serve-700 dark:bg-serve-500/20 dark:text-serve-300">
+          <span className="rounded-full bg-serve-500/15 px-3 py-1 text-xs font-medium text-serve-700 dark:bg-serve-950 dark:text-serve-300">
             {connected ? '● Live' : '○ Reconnecting'}
           </span>
         </div>
@@ -123,7 +123,7 @@ export default function PatientView() {
           Now Serving
         </p>
         <div
-          className={`mb-8 flex h-40 w-40 items-center justify-center rounded-3xl bg-serve-600 text-white sm:mb-12 sm:h-56 sm:w-56 lg:h-72 lg:w-72 ${
+          className={`mb-8 flex h-40 w-40 items-center justify-center rounded-3xl bg-serve-600 text-white dark:bg-serve-800 dark:ring-2 dark:ring-serve-700 sm:mb-12 sm:h-56 sm:w-56 lg:h-72 lg:w-72 ${
             pulse ? 'animate-token-pulse' : ''
           }`}
         >
@@ -153,8 +153,8 @@ export default function PatientView() {
           )}
 
           {isProceed && (
-            <div className="rounded-xl border border-serve-500 bg-serve-50 px-4 py-4 text-center dark:bg-serve-600/30">
-              <p className="text-xl font-bold text-serve-700 dark:text-serve-400">Please Proceed</p>
+            <div className="rounded-xl border border-serve-500 bg-serve-50 px-4 py-4 text-center dark:border-serve-800 dark:bg-serve-950">
+              <p className="text-xl font-bold text-serve-700 dark:text-serve-200">Please Proceed</p>
               <p className="mt-1 text-slate-600 dark:text-white/80">{lookup.message}</p>
             </div>
           )}
