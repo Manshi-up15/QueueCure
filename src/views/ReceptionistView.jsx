@@ -230,7 +230,7 @@ export default function ReceptionistView() {
             </p>
           </div>
 
-          <AnalyticsPanel key={state.lastUpdated} />
+          <AnalyticsPanel refreshAt={state.lastUpdated} />
 
           <div className={cardClass}>
             <h2 className="mb-2 text-lg font-semibold text-slate-900 dark:text-white">End of Day</h2>

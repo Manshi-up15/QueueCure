@@ -39,19 +39,14 @@ export function getDailyAnalytics() {
     count: 0,
   }))
 
-  const hourlyRows = db
-    .prepare(
-      `SELECT strftime('%H', registered_at) as hour, COUNT(*) as count
-       FROM patients
-       WHERE session_id = ?
-       GROUP BY hour`,
-    )
+  const registeredPatients = db
+    .prepare(`SELECT registered_at FROM patients WHERE session_id = ?`)
     .all(session.id)
 
-  for (const row of hourlyRows) {
-    const hour = Number(row.hour)
+  for (const row of registeredPatients) {
+    const hour = new Date(row.registered_at).getHours()
     if (hour >= 0 && hour < 24) {
-      hourBuckets[hour].count = row.count
+      hourBuckets[hour].count += 1
     }
   }
 

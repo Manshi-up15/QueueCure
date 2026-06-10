@@ -4,16 +4,29 @@ import { api } from '../lib/api'
 const panelClass =
   'rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800'
 
-export default function AnalyticsPanel() {
+export default function AnalyticsPanel({ refreshAt }) {
   const [stats, setStats] = useState(null)
   const [error, setError] = useState(null)
 
   useEffect(() => {
+    let cancelled = false
+
     api
       .getAnalytics()
-      .then(setStats)
-      .catch((err) => setError(err.message))
-  }, [])
+      .then((data) => {
+        if (!cancelled) {
+          setStats(data)
+          setError(null)
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) setError(err.message)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [refreshAt])
 
   if (error) {
     return (
@@ -49,17 +62,30 @@ export default function AnalyticsPanel() {
           <p className="mb-3 text-sm font-medium text-slate-700 dark:text-slate-300">
             Registrations by hour
           </p>
-          <div className="flex h-32 items-end gap-1">
-            {stats.hourlyVolume.map((bucket) => (
-              <div key={bucket.hour} className="flex flex-1 flex-col items-center gap-1">
+          <div className="flex h-36 gap-2">
+            {stats.hourlyVolume.map((bucket) => {
+              const barHeight = Math.round((bucket.count / maxCount) * 100)
+              return (
                 <div
-                  className="w-full rounded-t bg-clinic-500 transition-all dark:bg-clinic-600"
-                  style={{ height: `${(bucket.count / maxCount) * 100}%`, minHeight: '4px' }}
-                  title={`${bucket.label}: ${bucket.count}`}
-                />
-                <span className="text-[10px] text-slate-500 dark:text-slate-400">{bucket.hour}</span>
-              </div>
-            ))}
+                  key={bucket.hour}
+                  className="flex h-full min-w-0 flex-1 flex-col items-center"
+                >
+                  <div className="flex w-full flex-1 flex-col items-center justify-end">
+                    <span className="mb-1 text-[10px] font-semibold text-slate-600 dark:text-slate-300">
+                      {bucket.count}
+                    </span>
+                    <div
+                      className="w-full rounded-t bg-clinic-500 transition-all duration-300 dark:bg-clinic-600"
+                      style={{ height: `${Math.max(barHeight, 12)}%` }}
+                      title={`${bucket.label}: ${bucket.count} patient(s)`}
+                    />
+                  </div>
+                  <span className="mt-2 shrink-0 text-[10px] text-slate-500 dark:text-slate-400">
+                    {bucket.label}
+                  </span>
+                </div>
+              )
+            })}
           </div>
         </div>
       ) : (
